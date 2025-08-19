@@ -58,33 +58,11 @@ if (contactForm) {
             return;
         }
         
-        // Netlify Functions로 메일 전송 요청
-        try {
-            const response = await fetch('/.netlify/functions/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    field,
-                    schedule,
-                    message
-                })
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('통역 상담 문의가 성공적으로 접수되었습니다!\n메일을 확인해주세요.');
-            } else {
-                alert('문의 접수 중 오류가 발생했습니다: ' + result.message);
-            }
-        } catch (error) {
-            console.error('메일 전송 오류:', error);
-            alert('문의 접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-        }
+        // mailto 링크를 사용한 메일 전송 (GitHub Pages에서 작동)
+        const mailtoLink = `mailto:yu0aud@naver.com?subject=통역 상담 문의 - ${name}&body=성함: ${name}%0D%0A이메일: ${email}%0D%0A통역 분야: ${field}%0D%0A통역 일정: ${schedule}%0D%0A상세 요청사항: ${message}`;
+        
+        window.open(mailtoLink);
+        alert('통역 상담 문의가 접수되었습니다!\n메일 클라이언트가 열립니다.');
         
         // 폼 초기화
         this.reset();

@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  SMTP_USER = "bd3473@naver.com"
+  SMTP_PASS = "ghkdtjdals12?"
 
 [[redirects]]
   from = "/api/*"

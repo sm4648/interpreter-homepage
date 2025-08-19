@@ -41,14 +41,14 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // 네이버 메일 transporter 설정
+        // 네이버 메일 transporter 설정 (환경변수 사용)
         const transporter = nodemailer.createTransporter({
             host: 'smtp.naver.com',
             port: 587,
             secure: false,
             auth: {
-                user: 'bd3473@naver.com',
-                pass: 'ghkdtjdals12?'
+                user: process.env.SMTP_USER || 'bd3473@naver.com',
+                pass: process.env.SMTP_PASS || 'ghkdtjdals12?'
             },
             tls: {
                 rejectUnauthorized: false

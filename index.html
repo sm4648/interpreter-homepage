@@ -190,24 +190,46 @@
                         <span>상담 시간: 평일 09:00-18:00</span>
                     </div>
                 </div>
-                <form class="contact-form" action="https://formspree.io/f/yu0aud@naver.com" method="POST">
+                <form class="contact-form" id="contactForm">
                     <div class="form-group">
-                        <input type="text" name="name" placeholder="성함" required>
+                        <input type="text" id="name" placeholder="성함" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="이메일" required>
+                        <input type="email" id="email" placeholder="이메일" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="field" placeholder="통역 분야" required>
+                        <input type="text" id="field" placeholder="통역 분야" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="schedule" placeholder="통역 일정" required>
+                        <input type="text" id="schedule" placeholder="통역 일정" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" placeholder="상세 요청사항" rows="5" required></textarea>
+                        <textarea id="message" placeholder="상세 요청사항" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">상담 문의하기</button>
+                    <button type="button" class="btn btn-primary" onclick="sendEmail()">상담 문의하기</button>
                 </form>
+
+                <script>
+                function sendEmail() {
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const field = document.getElementById('field').value;
+                    const schedule = document.getElementById('schedule').value;
+                    const message = document.getElementById('message').value;
+                    
+                    if (!name || !email || !field || !schedule || !message) {
+                        alert('모든 필드를 입력해주세요.');
+                        return;
+                    }
+                    
+                    const mailtoLink = `mailto:yu0aud@naver.com?subject=통역 상담 문의 - ${name}&body=성함: ${name}%0D%0A이메일: ${email}%0D%0A통역 분야: ${field}%0D%0A통역 일정: ${schedule}%0D%0A상세 요청사항: ${message}`;
+                    
+                    window.open(mailtoLink);
+                    alert('통역 상담 문의가 접수되었습니다!\n메일 클라이언트가 열립니다.');
+                    
+                    document.getElementById('contactForm').reset();
+                }
+                </script>
             </div>
         </div>
     </section>

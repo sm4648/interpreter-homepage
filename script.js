@@ -58,8 +58,16 @@ if (contactForm) {
             return;
         }
         
-        // 성공 메시지 (실제로는 서버로 데이터를 보내야 함)
-        alert('통역 상담 문의가 성공적으로 접수되었습니다!\n빠른 시일 내에 연락드리겠습니다.');
+        // 메일 링크 생성 (yu0aud@naver.com으로 전송)
+        const mailtoLink = `mailto:yu0aud@naver.com?subject=통역 상담 문의 - ${name}&body=성함: ${name}%0D%0A이메일: ${email}%0D%0A통역 분야: ${field}%0D%0A통역 일정: ${schedule}%0D%0A상세 요청사항: ${message}`;
+        
+        // 성공 메시지
+        alert('통역 상담 문의가 성공적으로 접수되었습니다!\n메일 클라이언트가 열립니다.');
+        
+        // 메일 클라이언트 열기
+        window.open(mailtoLink);
+        
+        // 폼 초기화
         this.reset();
     });
 }

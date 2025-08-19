@@ -58,9 +58,9 @@ if (contactForm) {
             return;
         }
         
-        // 서버로 메일 전송 요청
+        // Netlify Functions로 메일 전송 요청
         try {
-            const response = await fetch('/api/send-email', {
+            const response = await fetch('/.netlify/functions/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

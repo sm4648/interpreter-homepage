@@ -190,46 +190,24 @@
                         <span>상담 시간: 평일 09:00-18:00</span>
                     </div>
                 </div>
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" action="https://formspree.io/f/xrgjabrg" method="POST">
                     <div class="form-group">
-                        <input type="text" id="name" placeholder="성함" required>
+                        <input type="text" name="name" placeholder="성함" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" placeholder="이메일" required>
+                        <input type="email" name="email" placeholder="이메일" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="field" placeholder="통역 분야" required>
+                        <input type="text" name="field" placeholder="통역 분야" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="schedule" placeholder="통역 일정" required>
+                        <input type="text" name="schedule" placeholder="통역 일정" required>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" placeholder="상세 요청사항" rows="5" required></textarea>
+                        <textarea name="message" placeholder="상세 요청사항" rows="5" required></textarea>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="sendEmail()">상담 문의하기</button>
+                    <button type="submit" class="btn btn-primary">상담 문의하기</button>
                 </form>
-
-                <script>
-                function sendEmail() {
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const field = document.getElementById('field').value;
-                    const schedule = document.getElementById('schedule').value;
-                    const message = document.getElementById('message').value;
-                    
-                    if (!name || !email || !field || !schedule || !message) {
-                        alert('모든 필드를 입력해주세요.');
-                        return;
-                    }
-                    
-                    const mailtoLink = `mailto:yu0aud@naver.com?subject=통역 상담 문의 - ${name}&body=성함: ${name}%0D%0A이메일: ${email}%0D%0A통역 분야: ${field}%0D%0A통역 일정: ${schedule}%0D%0A상세 요청사항: ${message}`;
-                    
-                    window.open(mailtoLink);
-                    alert('통역 상담 문의가 접수되었습니다!\n메일 클라이언트가 열립니다.');
-                    
-                    document.getElementById('contactForm').reset();
-                }
-                </script>
             </div>
         </div>
     </section>
@@ -277,6 +255,79 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+    // 통역 상담 폼 제출 처리
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 폼 데이터 수집
+                const name = this.querySelector('#name').value;
+                const email = this.querySelector('#email').value;
+                const field = this.querySelector('#field').value;
+                const schedule = this.querySelector('#schedule').value;
+                const message = this.querySelector('#message').value;
+                
+                // 간단한 유효성 검사
+                if (!name || !email || !field || !schedule || !message) {
+                    alert('모든 필드를 입력해주세요.');
+                    return;
+                }
+                
+                // mailto 링크를 사용한 메일 전송
+                const mailtoLink = `mailto:yu0aud@naver.com?subject=통역 상담 문의 - ${name}&body=성함: ${name}%0D%0A이메일: ${email}%0D%0A통역 분야: ${field}%0D%0A통역 일정: ${schedule}%0D%0A상세 요청사항: ${message}`;
+                
+                window.open(mailtoLink);
+                alert('통역 상담 문의가 접수되었습니다!\n메일 클라이언트가 열립니다.');
+                
+                // 폼 초기화
+                this.reset();
+            });
+        }
+    });
+
+    // 스크롤 애니메이션
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // 애니메이션을 적용할 요소들
+    document.addEventListener('DOMContentLoaded', () => {
+        const animateElements = document.querySelectorAll('.service-card, .feature, .contact-item, .timeline-content');
+        
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    });
+
+    // 서비스 카드 클릭 이벤트
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceTitle = this.querySelector('h3').textContent;
+                const fieldInput = document.querySelector('#field');
+                if (fieldInput) {
+                    fieldInput.value = serviceTitle;
+                    document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
